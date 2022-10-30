@@ -1,0 +1,31 @@
+{% extends './common/base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <section class="showcase">
+        <div class="container-fluid p-0">
+            <div class="row g-0">
+                <div class="col-lg-6 text-white order-lg-2 showcase-img" style="background-image:url(&quot;{% static 'img/bg-bookstack.webp' %} &quot;);"><span></span></div>
+                <div class="col-lg-6 my-auto order-lg-1 showcase-text">
+                    <h2>Search for books!</h2>
+                    <p class="lead mb-0">Any and all books can be looked up with ease. No advertisements. Completely free!</p>
+                </div>
+            </div>
+            <div class="row g-0">
+                <div class="col-lg-6 text-white showcase-img" style="background-image:url(&quot;{% static 'img/bg-bookshelf.jpg' %} &quot;);"><span></span></div>
+                <div class="col-lg-6 my-auto order-lg-1 showcase-text">
+                    <h2>Maintain an online bookshelf!</h2>
+                    <p class="lead mb-0">Be able to easily remember all the books that you've ever read by adding it to your secure personal bookshelf!</p>
+                </div>
+            </div>
+            <div class="row g-0">
+                <div class="col-lg-6 text-white order-lg-2 showcase-img" style="background-image:url(&quot;{% static 'img/bg-readinglist.jpg' %}&quot;);"><span></span></div>
+                <div class="col-lg-6 my-auto order-lg-1 showcase-text">
+                    <h2>Share your reading list!</h2>
+                    <p class="lead mb-0">Ever wanted to quickly share your reading list? Book-bae allows you to do just that by giving you a quick share button to share all the books stored in your virtual bookshelf!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}    

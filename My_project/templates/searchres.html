@@ -1,0 +1,137 @@
+{% extends './common/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- <div class="card-group"> -->
+        <script>
+            document.getElementById("searchbox").value = "{{request.session.query}}"
+
+            
+        </script>
+        
+        {% if request.session.query %}
+        {% for i in request.session.queryres %}
+        <div class="card">
+            
+            <div class="card-body bookdata">
+
+                <div class="row">
+                    <div class="col-md-10">
+                        {% csrf_token %}
+                        <!-- Title -->
+                        <input type = "hidden" value = "{{ i.0 }}" class = "booktitle">
+                        <h4 class="card-title">{{i.0}}</h4>
+
+                        <!-- Author -->
+                        <h5>{{i.1}}</h5>
+
+                        <!-- Publisher -->
+                        <h6>{{i.4}}</h6>
+
+                        <!-- Description -->
+                        {% if i.2 %}
+                        <p class="card-text">{{i.2}}</p>
+                        {% endif %}
+                        
+                        <!-- <button class="btn btn-primary" type="button" style="margin: 12px;">More Info</button> -->
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal_{{i.8}}" style="margin: 12px;">
+                            More Info
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal_{{i.8}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{i.0}}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- <p>i is {{i}}</p> -->
+                                <ul>
+                                    <li><strong>Title:</strong> {{i.0}}</li>
+                                    <li><strong>Author:</strong> {{i.1}}</li>
+                                    <li><strong>Language:</strong> {{i.10}}</li>
+                                    <!-- <li><strong>Description:</strong> {{i.2}}</li> -->
+                                    <li><strong>Publisher:</strong> {{i.4}}</li>
+                                    <li><strong>Published Date:</strong> {{i.5}}</li>
+                                    <li><strong>Average rating:</strong> {{i.6}}</li>
+                                    <li><strong>Maturity rating:</strong> {{i.7}}</li>
+                                    <li><strong>ISBN:</strong> {{i.8}}</li>
+                                    <li><strong>No of pages:</strong> {{i.9}}</li>
+                                    <li><strong>Purchase link:</strong> <a href = "{{i.11}}" target="_blank">Here</a></li>
+                                </ul>
+                                </div>
+                                <div class="modal-footer">
+                                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button> -->
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                                                                        
+
+
+
+                        <button data-bookthumb = "{{i.3}}" data-bookpub="{{i.4}}" data-bookisbn="{{i.8}}" data-booktitle="{{i.0}}" data-bookauthor="{{i.1}}" data-action="add" class="btn btn-primary shelfbtn" type="button" style="margin: 12px;">Add to Shelf</button>
+                    </div>
+                    <div class="col-md-2">
+                        <center>
+                            <img src="{{i.3}}" height="256px" width="auto"/>  
+                        </center>
+                                         
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% else %}
+        <h4> NO MATCH FOUND </h4>
+        {% endif %}
+
+        <script>
+            var bookbtns = document.getElementsByClassName('shelfbtn')
+
+            for (var i = 0; i < bookbtns.length; i++){
+                bookbtns[i].addEventListener('click',function(){
+                    var bookisbn = this.dataset.bookisbn
+                    var bookauthor = this.dataset.bookauthor
+                    var booktitle = this.dataset.booktitle
+                    var bookpub = this.dataset.bookpub
+                    var bookthumb = this.dataset.bookthumb
+                    var action = this.dataset.action
+                    console.log("Book title is ",booktitle)
+                    console.log('bookisbn:',bookisbn,'booktitle',booktitle,'bookauthor',bookauthor,'bookpub',bookpub,'action:',action)
+                    console.log('User:', user)
+                    if(user === 'AnonymousUser'){
+                        console.log("Not logged in")
+                    }else{
+                        update_Shelf(booktitle,bookauthor,bookpub,bookisbn,bookthumb,action)
+                    }
+                })
+            }
+
+            function update_Shelf(booktitle,bookauthor,bookpub,bookisbn,bookthumb,action){
+                console.log("User logged in, sending data..")
+                var url = '/updateshelf/'
+
+                fetch(url, {
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({'bookthumb':bookthumb,'bookisbn':bookisbn,'booktitle':booktitle,'bookauthor':bookauthor,'bookpub':bookpub,'action':action})
+                })
+
+                .then((response) => response.json())
+
+                .then((data) => {
+                    console.log('data:',data)
+                })
+            }
+
+        </script>
+        
+{% endblock %}    
