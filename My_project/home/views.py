@@ -127,7 +127,7 @@ def updateshelf(request):
     favs = FavBooks.objects.create(user=current_user, btitle=booktitle,
                                    isbn=bookisbn, author=bookauthor, publisher=bookpub, thumb=bookthumb)
     favs.save()
-    messages.success(request, "Added to shelf successfully")
+    # messages.success(request, "Added to shelf successfully")
 
     return JsonResponse("Book added", safe=False)
 
@@ -135,7 +135,7 @@ def updateshelf(request):
 def removebook(request, id):
     data = FavBooks.objects.get(id=id)
     data.delete()
-    # messages.success(request, "Removed from shelf successfully")
+    messages.success(request, "Removed from shelf successfully")
     return redirect('bookshelf')
 
 
