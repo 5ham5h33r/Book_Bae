@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+
 import requests
 import json
 
@@ -66,6 +68,7 @@ def bookdetails(request):
 
     return render(request, 'bookdetails.html', context)
 
+
 def loginpage(request):
     if request.method == 'POST':
         username = request.POST['Name']
@@ -80,11 +83,13 @@ def loginpage(request):
 
     return render(request, 'login.html')
 
+
 def logoutpage(request):
     # print("log out")
     logout(request)
 
     return redirect('home')
+
 
 def register(request):
     if request.method == 'POST':
@@ -102,6 +107,7 @@ def register(request):
         return redirect('login')
     return render(request, 'register.html')
 
+
 @csrf_exempt
 def updateshelf(request):
     print("Update shelf entered")
@@ -109,31 +115,35 @@ def updateshelf(request):
     print(data)
     bookthumb = data['bookthumb']
     bookisbn = data['bookisbn']
-    booktitle=data['booktitle']
-    bookauthor=data['bookauthor']
-    bookpub=data['bookpub']
-    action=data['action']
-    print(f"booktitle {booktitle} /n Bookauthor:{bookauthor}/n bookpub:{bookpub} /n isbn{bookisbn} /n action: {action}")
+    booktitle = data['booktitle']
+    bookauthor = data['bookauthor']
+    bookpub = data['bookpub']
+    action = data['action']
+    print(
+        f"booktitle {booktitle} /n Bookauthor:{bookauthor}/n bookpub:{bookpub} /n isbn{bookisbn} /n action: {action}")
 
-    
     current_user = request.user.username
     print(f"Cur user is {current_user}")
-    favs = FavBooks.objects.create(user = current_user, btitle = booktitle, isbn = bookisbn, author = bookauthor, publisher = bookpub, thumb = bookthumb)
+    favs = FavBooks.objects.create(user=current_user, btitle=booktitle,
+                                   isbn=bookisbn, author=bookauthor, publisher=bookpub, thumb=bookthumb)
     favs.save()
+    messages.success(request, "Added to shelf successfully")
 
-    return JsonResponse("Book added", safe = False)
+    return JsonResponse("Book added", safe=False)
+
 
 def removebook(request, id):
     data = FavBooks.objects.get(id=id)
     data.delete()
+    # messages.success(request, "Removed from shelf successfully")
     return redirect('bookshelf')
-
 
 
 def bookshelf(request):
     data = FavBooks.objects.all()
-    context = {"books":data}
+    context = {"books": data}
     return render(request, 'bookshelf.html', context)
+
 
 def callingbooks(name):
     book_name = name

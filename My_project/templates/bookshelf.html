@@ -29,11 +29,20 @@
             
         </div>
     </nav>
+
+    {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+    {% endif %}
+
     {% for i in books %}
     <!-- <p>books.user is {{i.user}}</p> -->
     <!-- <p>Request.user is {{request.user}} </p> -->
     {% if request.user.username == i.user %}
-    <div class="card" style = "margin: 100px;">
+    <div class="card" style = "margin-left: 200px; margin-right: 200px; margin-top: 50px;">
             
         <div class="card-body bookdata">
 
