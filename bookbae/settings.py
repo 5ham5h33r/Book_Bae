@@ -30,6 +30,10 @@ DEBUG = True
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOST'), '127.0.0.1', 'bookbae.azurewebsites.net']
 
+
+CSRF_TRUSTED_ORIGINS = ['https://*.azurewebsites.net','https://*.127.0.0.1']
+
+
 # Application definition
 
 DEFAULT_APPS = [
