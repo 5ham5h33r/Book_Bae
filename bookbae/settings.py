@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-^b*v*jr(xh7xqwbu%s-r2ifk2ci1$s6ka@p6=(u@3&)-_3lem7
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = [os.getenv('ALLOWED_HOST'), '127.0.0.1']
+ALLOWED_HOSTS = [os.getenv('ALLOWED_HOST'), '127.0.0.1', 'bookbae.azurewebsites.net']
 
 # Application definition
 
