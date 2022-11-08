@@ -31,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOST'), '127.0.0.1', 'bookbae.azurewebsites.net']
 
 
-CSRF_TRUSTED_ORIGINS = ['https://*.azurewebsites.net','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://*.azurewebsites.net','https://*.127.0.0.1','https://bookbae.azurewebsites.net']
 
 
 # Application definition
